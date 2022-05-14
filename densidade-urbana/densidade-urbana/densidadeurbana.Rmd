@@ -1,0 +1,286 @@
+---
+title: "densidade"
+output:
+  word_document: default
+---
+
+
+
+```{r pacotes necessários}
+library(sf)
+library(raster)
+library(dplyr)
+library(ggplot2)
+library(landscapemetrics)
+library(tmap)
+library(geobr)
+library(janitor)
+library(tidyverse)
+library(survey)
+library(srvyr)
+library(viridis)
+```
+
+```{r shapes}
+ocup <- st_read("Ocup.shp")
+ra <- st_read("ra_ocup.shp")
+ra_erase<- st_read("ra_erase.shp")
+
+```
+
+```{r tabela dados evolução urbana, message=FALSE, warning=FALSE, include=FALSE}
+# Agrupar por RA
+tentativa<-ra %>%
+  srvyr::select(ra_cira,ano,area_1) %>% 
+srvyr::group_by(ra_cira, ano) %>% 
+  st_buffer(0) %>% 
+    srvyr::summarise(n=sum(area_1))
+
+tentativa <- as.data.frame(tentativa)
+tentativa<-tentativa[,(-4)]
+
+
+tentativa<-tentativa %>%
+  srvyr::select(ra_cira,ano,n) %>% 
+    srvyr::group_by(ra_cira,ano,n)
+
+evolucao<- spread(tentativa,ano,n)
+evolucao[is.na(evolucao)]<-0
+evolucao<- gather(evolucao,"ano","n",2:18)
+
+evolucao<-evolucao %>% 
+srvyr::group_by(ra_cira) %>% 
+    srvyr::summarise(areaocupada=sum(n))
+
+#evolucao <-evolucao %>%
+ # adorn_totals(where=  "col")
+
+```
+
+```{r estimativa de população da pdad, include=FALSE}
+pdad_dom_2018 <- read_delim("dom2018_33ras.csv", 
+                            ";", escape_double = FALSE, locale = locale(decimal_mark = ","), 
+                            trim_ws = TRUE)%>% 
+  
+  # Renomear colunas
+  dplyr::rename(A01nficha= A01nFicha,
+                A01npessoas=A01nPessoas,
+                A01nfamilias=A01nFamilias)
+# Baixar microdados de pessoas do site da Codeplan
+pdad_pes_2018 <- read_delim("mor2018_33ras.csv", 
+                            ";", escape_double = FALSE, locale = locale(decimal_mark = ","), 
+                            trim_ws = TRUE)
+# Fazer o join das bases
+pdad <- pdad_pes_2018 %>%
+  # Entrar com a função para left join
+  dplyr::left_join(
+    # Informar a base que iremos unir, filtrando para colunas repetidas
+    pdad_dom_2018 %>%
+      # Filtrar as colunas repetidas
+      dplyr::select(-c(A01ra,FATOR_PROJ)),
+by=c("A01nficha"="A01nficha")) %>% 
+  # Mudar a variável pos-estrato para o tipo character
+  dplyr::mutate(POS_ESTRATO=as.character(POS_ESTRATO))
+
+# Defenir uma semente para reprodutibilidade
+set.seed(8888)
+
+# Declarar o desenho incial
+sample.pdad <- 
+  survey::svydesign(id = ~A01nficha, # Identificador único da unidade amostrada
+                    strata = ~A01setor, # Identificação do estrato
+                    weights = ~PESO_PRE, # Probabilidade da unidade ser sorteada
+                    nest=TRUE, # Parâmetro de tratamento para dos IDs dos estratos
+                    data=pdad # Declarar a base a ser utilizada
+                    )
+# Criar um objeto para pós estrato
+post.pop <- pdad %>%
+  dplyr::group_by(POS_ESTRATO) %>% # Agrupar por pos-estrato
+  dplyr::summarise(Freq=max(POP_AJUSTADA_PROJ)) # Capturar o total da população
+
+# Declarar o objeto de pós-estrato
+# Estamos dizendo nesse passo qual é a população alvo para cada
+# pós-estrato considerado
+
+sample.pdad <- survey::postStratify(sample.pdad,~POS_ESTRATO,post.pop)
+
+# Criar objeto para calcular os erros por bootstrap (Rao and Wu’s(n − 1) bootstrap)
+# J. N. K. Rao and C. F. J. Wu - Journal of the American Statistical Association
+# Vol. 83, No. 401 (Mar., 1988), pp. 231-241
+amostra <- survey::as.svrepdesign(sample.pdad, type = "subbootstrap")
+
+# Ajustar estratos com apenas uma UPA (adjust=centered)
+options( survey.lonely.psu = "adjust")
+
+# Ajustar objeto de amostra, para uso com o pacote srvyr
+amostra <- srvyr::as_survey(amostra)
+
+# População DF com mais de 18 anos
+popra <- 
+amostra %>%
+  dplyr::mutate(RA_nome=factor(case_when(A01ra==1~"Plano Piloto",
+                                         A01ra==2~"Gama",
+                                         A01ra==3~"Taguatinga",
+                                         A01ra==4~"Brazlândia",
+                                         A01ra==5~"Sobradinho",
+                                         A01ra==6~"Planaltina",
+                                         A01ra==7~"Paranoá",
+                                         A01ra==8~"Núcleo Bandeirante",
+                                         A01ra==9~"Ceilândia",
+                                         A01ra==10~"Guará",
+                                         A01ra==11~"Cruzeiro",
+                                         A01ra==12~"Samambaia",
+                                         A01ra==13~"Santa Maria",
+                                         A01ra==14~"São Sebastião",
+                                         A01ra==15~"Recanto das Emas",
+                                         A01ra==16~"Lago Sul",
+                                         A01ra==17~"Riacho Fundo",
+                                         A01ra==18~"Lago Norte",
+                                         A01ra==19~"Candangolândia",
+                                         A01ra==20~"Águas Claras",
+                                         A01ra==21~"Riacho Fundo II",
+                                         A01ra==22~"Sudoeste/Octogonal",
+                                         A01ra==23~"Varjão",
+                                         A01ra==24~"Park Way",
+                                         A01ra==25~"SCIA/Estrutural",
+                                         A01ra==26~"Sobradinho II",
+                                         A01ra==27~"Jardim Botânico",
+                                         A01ra==28~"Itapoã",
+                                         A01ra==29~"SIA",
+                                         A01ra==30~"Vicente Pires",
+                                         A01ra==31~"Fercal",
+                                         A01ra==32~"Sol Nascente/Pôr do Sol",
+                                         A01ra==33~"Arniqueira"))) %>% 
+  # Filtrar somente a população com 18 anos ou mais de idade
+  srvyr::group_by(A01ra,RA_nome) %>%
+  # Criar uma variável auxiliar para contagem
+  srvyr::mutate(count=1) %>%
+  # Calcular o total da população, com seu intervalo de confiança
+  srvyr::summarise(n=survey_total(count, vartype = "ci"))
+
+
+popra <-popra[,c(1,2,3)]
+```
+
+```{r include=FALSE}
+ 
+tipores <- 
+amostra %>%
+   mutate(tipo=case_when(B02 %in%c(1,3,4)~"Apartamento+quitinete+cômodo",
+                             B02==2~"Casa"))%>% 
+  # Filtrar somente a população com 18 anos ou mais de idade
+    srvyr::filter(E02==1) %>%
+  srvyr::group_by(A01ra,tipo) %>%
+  # Criar uma variável auxiliar para contagem
+  srvyr::mutate(count=1) %>%
+  # Calcular o total da população, com seu intervalo de confiança
+  srvyr::summarise(n=survey_total(count, vartype = "ci"))
+
+
+tipo<-spread(tipores[,c(1,2,3)],tipo,n)
+  tipo<-tipo %>%   mutate_if(is.numeric, round, digits = 0)
+
+
+```
+
+```{r include=FALSE}
+area_ocup<-evolucao %>%
+  srvyr::select(ra_cira,areaocupada)
+populacao<-popra %>%
+  srvyr::select(A01ra,RA_nome,n)
+populacao$A01ra <-as.character(populacao$A01ra)
+tipo$A01ra <-as.character(tipo$A01ra)
+ra_erase$ra_cira <-as.character(ra_erase$ra_cira)
+area_ocup$ra_cira <-as.character(area_ocup$ra_cira)
+
+
+tabela<- left_join(area_ocup,populacao, by = c("ra_cira"="A01ra"))
+tabela<- left_join(tabela,ra_erase, by = c("ra_cira"="ra_cira"))
+tabela$`densidade urbana` = tabela$n/tabela$areaocupada
+tabela$`densidade demográfica` = tabela$n/tabela$area
+tabela<-tabela %>%   mutate_if(is.numeric, round, digits = 2)
+
+tabela<-left_join(tabela,tipo, by = c("ra_cira"="A01ra"))
+
+ 
+ regions = aggregate(x = ra[, "area_1"], by = list(ra$ra_cira),
+                     FUN = sum, na.rm = TRUE)
+
+ regions$Group.1 <-as.character(regions$Group.1)
+
+tabelacompleta<-left_join(regions,tabela, by = c("Group.1"="ra_cira"))
+ra_erase$ra_cira <-as.character(ra_erase$ra_cira)
+tabelara<-left_join(ra_erase,tabela, by = c("ra_cira"="ra_cira"))
+tabelara[c('ant', 'code')] <- str_split_fixed(tabelara$ra_codigo.x, '-', 2)
+
+
+```
+
+
+```{r echo=FALSE}
+tm_shape(tabelacompleta) + 
+    tm_polygons(col = "densidade urbana", n = 3, title  =  "Densidade Urbana (hab/ha)" )+
+             tm_shape(tabelara, "Densidade Demográfica") + 
+      tm_fill(alpha = 0.1)+
+           tm_borders("black")+
+         tm_text('code', size = 0.45, col="black")+
+     tm_layout(legend.outside = T,
+          compass.type = "4star",
+          attr.outside = FALSE )+
+
+         tm_grid(lines = FALSE, labels.rot = c(90,0))+
+  tm_scale_bar(position = c("right", "bottom")) + 
+  tm_compass(position = c("right", "top"))
+
+
+tm_shape(tabelara) + 
+     # tm_fill("name", legend.show = FALSE) +
+   tm_polygons(col = "densidade demográfica", n = 10, palette = "viridis")+
+tm_layout(main.title = "Densidade Demográfica por Região Administrativa", 
+          legend.outside = T,
+          compass.type = "4star",
+          attr.outside = FALSE)+
+    tm_text('code', size = 0.5)+
+    tm_grid(lines = FALSE, labels.rot = c(90,0))+
+  tm_scale_bar(position = c("right", "bottom")) + 
+  tm_compass(position = c("right", "top"))
+
+ 
+ 
+```
+
+```{r area ocupada por ano, include=FALSE}
+
+# Agrupar por RA
+evolucaoa<-ra %>%
+  srvyr::select(ra_cira,ano,area_1) %>% 
+srvyr::group_by(ra_cira, ano) %>% 
+  st_buffer(0) %>% 
+    srvyr::summarise(n=sum(area_1))
+
+evolucaoa <- as.data.frame(evolucaoa)
+evolucaoa<-evolucaoa[,(-4)]
+
+
+tentativa$ra_cira <-as.character(tentativa$ra_cira)
+  evolucaoa<- spread(evolucaoa,ano,n)
+evolucaoa[is.na(evolucaoa)]<-0
+evolucaoa<- gather(evolucaoa,"ano","n",2:18)
+
+evolucaoa<-evolucaoa  %>% group_by(ra_cira) %>% mutate(csum = cumsum(n))
+
+evolucaoa<-evolucaoa %>%
+  srvyr::select(ra_cira,ano,csum)
+  
+  evolucaoa<- spread(evolucaoa,ano,csum)
+
+
+```
+
+```{r}
+knitr::kable(tabela %>% 
+   select(RA_nome,Total,n,`densidade urbana`,`densidade demográfica`,`Apartamento+quitinete+cômodo`,Casa),
+col.names =  c("Região Administrativa", "área ocupada", "densidade urbana (hab/ha)", "densidade demográfica (hab/ha)","Apartamento+quitinete+cômodo", "Casa"))
+
+```
+

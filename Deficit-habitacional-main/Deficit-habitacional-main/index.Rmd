@@ -1,0 +1,946 @@
+---
+title: "Deficit Habitacional"
+author: "Diretoria de Monitoramento e Estudos Territoriais"
+date: "`r format(Sys.time(), '%d %B, %Y')`"
+output:
+  html_document:
+    highlight: textmate
+    theme: flatly
+    number_sections: yes
+    toc: yes
+    toc_float:
+      collapsed: yes
+      smooth_scroll: no
+---
+
+
+# Introdução {.tabset .tabset-fade}
+
+## Quadro Resumo
+<style type="text/css">
+.tg  {border-collapse:collapse;border-color:#ccc;border-spacing:0;margin:0px auto;}
+.tg td{background-color:#fff;border-color:#ccc;border-style:solid;border-width:1px;color:#333;
+  font-family:Arial, sans-serif;font-size:14px;overflow:hidden;padding:10px 5px;word-break:normal;}
+.tg th{background-color:#f0f0f0;border-color:#ccc;border-style:solid;border-width:1px;color:#333;
+  font-family:Arial, sans-serif;font-size:14px;font-weight:normal;overflow:hidden;padding:10px 5px;word-break:normal;}
+.tg .tg-yzzw{border-color:#656565;color:#000000;font-family:Arial, Helvetica, sans-serif !important;;font-size:12px;text-align:left;
+  vertical-align:top}
+@media screen and (max-width: 767px) {.tg {width: auto !important;}.tg col {width: auto !important;}.tg-wrap {overflow-x: auto;-webkit-overflow-scrolling: touch;margin: auto 0px;}}</style>
+<div class="tg-wrap"><table class="tg">
+<tbody>
+  <tr>
+    <td class="tg-yzzw">Objetivo</td>
+    <td class="tg-yzzw">Orientar a política habitacional quanto a necessidade de provimento de domicílios, em especial os de interesse social</td>
+  </tr>
+  <tr>
+    <td class="tg-yzzw">Descrição</td>
+    <td class="tg-yzzw">Indica deficiências no estoque de moradia regionalizada no território do Distrito Federal</td>
+  </tr>
+  <tr>
+    <td class="tg-yzzw">Palavras-Chave</td>
+    <td class="tg-yzzw"><span style="background-color:transparent">Déficit Habitacional, PDAD 2018, </span></td>
+  </tr>
+  <tr>
+    <td class="tg-yzzw">Unidade de medida</td>
+    <td class="tg-yzzw"><span style="background-color:transparent">(n° de domicílios)</span></td>
+  </tr>
+  <tr>
+    <td class="tg-yzzw">Tipo de indicador</td>
+    <td class="tg-yzzw">a definir</td>
+  </tr>
+  <tr>
+    <td class="tg-yzzw">Comportamento desejado</td>
+    <td class="tg-yzzw">Decrescente</td>
+  </tr>
+  <tr>
+    <td class="tg-yzzw">Fonte metodológica:</td>
+    <td class="tg-yzzw">[FURTADO, B.; LIMA NETO, V.; KRAUSE, C. Estimativas do déficit habitacional brasileiro (2007-2011) por municípios (2010). Brasília: Ipea, 2013. (Nota Técnica, nº.. 1)](https://www.ipea.gov.br/portal/images/stories/PDFs/nota_tecnica/130517_notatecnicadirur01.pdf).</td>
+  </tr>
+  <tr>
+    <td class="tg-yzzw">Forma de Cálculo:</td>
+    <td class="tg-yzzw">Habitações precárias (C1) + Famílias em Coabitação (C2) + Famílias em ônus excessivo com aluguel (C3) + Domicílios alugados com adensamento excessivo (C4)</td>
+  </tr>
+  <tr>
+    <td class="tg-yzzw">Fonte de dados</td>
+    <td class="tg-yzzw">PDAD 2018</td>
+  </tr>
+  <tr>
+    <td class="tg-yzzw">Data da aferição dos Dados</td>
+    <td class="tg-yzzw">2º semestre de 2019</td>
+  </tr>
+  <tr>
+    <td class="tg-yzzw">Instrumento de aferição dos dados</td>
+    <td class="tg-yzzw">Entrevistas amostrais</td>
+  </tr>
+  <tr>
+    <td class="tg-yzzw">Periodicidade dos dados</td>
+    <td class="tg-yzzw">Bienal</td>
+  </tr>
+  <tr>
+    <td class="tg-yzzw">Desagregação</td>
+    <td class="tg-yzzw">Região Administrativa</td>
+  </tr>
+  <tr>
+    <td class="tg-yzzw">Responsável pelo cálculo do indicador</td>
+    <td class="tg-yzzw">DIMOT/SEDUH</td>
+  </tr>
+  <tr>
+    <td class="tg-yzzw">Última atualização</td>
+    <td class="tg-yzzw">1° semestre de 2021</td>
+  </tr>
+</tbody>
+</table></div>
+
+
+# Metodologia
+
+O indicador Déficit Habitacional foi desenvolvido com base na metodologia definida na [Nota Técnica nº. 1 do IPEA Estimativas do déficit habitacional brasileiro (2007-2011) por municípios (2010)](https://www.ipea.gov.br/portal/images/stories/PDFs/nota_tecnica/130517_notatecnicadirur01.pdf), para o cálculo do déficit habitacional com dados do Censo 2010, que por sua vez, é baseada nos conceitos estabelecidos pela Fundação João Pinheiro (FJP) e o Ministério das Cidades.  
+A base de dados utilizada foi a [PDAD 2018](http://www.codeplan.df.gov.br/microdados-pdad-2018/)(33 Ras), disponibilizada pela CODEPLAN.
+entretanto, a metodologia proposta pela FJP se baseia no questionário da PNAD, mas como ambas pesquisas possuem as questões necessárias para o estudo, fez-se a equivalência´ entre suas questões.
+O indicador busca calcular resultados para famílias em situação de déficit habitacional e/ou inadequação domiciliar, definidas mais especificamente como: a reposição de estoque, que contempla a necessidade de repor as habitações em função da sua precariedade e desgaste de uso. e o incremento de estoque, que refere-se a demanda por novas moradias decorente de: Coabitação forçada,ônus excessivo com aluguel e adensamento excessivo.
+
+
+## indicadores
+
+### Precariedade
+
+São consideradas habitações precárias todos aqueles domicílios que estejam classicados como **domícilios improvisados**. Outra categoria que também compõe as habitações precárias é a dos **domicílios Rústicos**, que são aqueles que embora sejam permanenetes não tenham alvenaria ou madeira aparelhada como material predominante nas paredes do domicílio.
+
+### Coabitação
+
+Contempla todas aquelas famílias que declaram viver em domicílios do tipo cômodo,independente da condição de sua ocupação (alugados,próprios ou cedidos), com isso tem-se o subcomponente **Famílias residentes em cômodos**. Há ainda o subcomponente **Famílias conviventes**, que ocorre quando há a presença de mais de um família residindo no mesmo domicílio e com intenção de mudar.
+
+### Ônus excessivo com aluguel  
+
+Caracteriza-se quando o peso pago com a prestação do aluguel no orçamento domiciliar for superior ou igual a 30% da renda domiciliar, sendo excluído do cálculo aquelas famílias cuja renda declarada é 0. Este indicador é calculado exclusivamente para os domicílios cujas rendas domiciliares são de até três salários mínimos. Segundo a metodologia desenvolvida pelo IPEA (2013), não é possível estabelecer que todos os domicílios que declaram a renda domiciliar igual a 0, apresentem-se estruturalmente sem renda (o que os impossibilitaria de fazer o pagamento do aluguel), ou se o fato é apenas conjuntural. Neste caso, optou-se por não incluir tais domicílios no cálculo do déficit.Por lidar com valores monetários de diferentes datas, optou por atualizar os dados de renda e aluguel, por meio do IPCA, tendo como referência julho de 2018. 
+
+### Adensamento excessivo
+
+Ocorre em domicílios alugados, que possuem mais de três habitantes por cômodo utilizado, permanentemente, como dormitório. 
+
+## Perfil da população
+
+O perfil de cada indicador é definido a partir das características do chefe de cada domicílio, de forma em que se considera aspectos de gênero: feminino e masculino; aspectos raciais,  em que são agrupados entre brancos, indígenas,amarelos e negros, sendo esse último grupo composto por pretos e pardos. Para a analisar a situação empregatícia, as pessoas foram categorizadas em trabalhadores formais, informais, desempregados, aposentados e aqueles que não respoderam. 
+
+# Resultados
+
+
+```{r Pacotes, message=FALSE, warning=FALSE, echo=FALSE}
+library(plotly)
+library(tidyverse)
+library(survey)
+library(srvyr)
+library(sidrar)
+library(readr)
+library(dplyr)                                
+library(ggplot2)
+library(knitr)
+library(kableExtra)
+library(htmltools)
+library(sunburstR)
+```
+
+
+
+```{r bases, echo=FALSE,message=FALSE, warning=FALSE}
+pdad_dom_2018 <- read_delim("~/Downloads/dom2018_33ras.csv", 
+                            ";", escape_double = FALSE, locale = locale(decimal_mark = ","), 
+                            trim_ws = TRUE)%>% 
+  
+  # Renomear colunas
+  dplyr::rename(A01nficha= A01nFicha,
+                A01npessoas=A01nPessoas,
+                A01nfamilias=A01nFamilias)
+
+# Baixar microdados de pessoas do site da Codeplan
+pdad_pes_2018 <- read_delim("~/Downloads/mor2018_33ras.csv", 
+                            ";", escape_double = FALSE, locale = locale(decimal_mark = ","), 
+                            trim_ws = TRUE)
+
+# Calcular inflator do aluguel, para referência de jul/2018
+inflator_aluguel <-  
+  dplyr::bind_rows(
+    # Baixar informações do Sidra IBGE
+    sidrar::get_sidra(api='/t/1419/n6/5300108/v/63/p/201803,201804,201805,201806,201807/c315/7448/d/v63%202') %>% 
+      # Selecionar colunas de interesse
+      dplyr::select("Mês (Código)","Mês","Valor") %>% 
+      # Renomear colunas
+      dplyr::rename_all(list(~c("ref","ref1","valor"))) %>% 
+      # Criar variável para o mês 
+      dplyr::mutate(MES_N=as.numeric(substr(ref,6,6)),
+                    MES=str_trim(gsub("[0-9]","",ref1))) %>% 
+      # Organizar variáveis
+      dplyr::arrange(-MES_N) %>% 
+      # Criar o inflator de março a julho
+      dplyr::mutate(inflator_aluguel=cumprod((valor/100)+1)),
+    # Fazer o mesmo processo para julho a outubro
+    sidrar::get_sidra(api='/t/1419/n6/5300108/v/63/p/201807,201808,201809,201810/c315/7448/d/v63%202') %>% 
+      dplyr::select("Mês (Código)","Mês","Valor") %>% 
+      dplyr::rename_all(list(~c("ref","ref1","valor"))) %>% 
+      dplyr::mutate(MES_N=as.numeric(substr(ref,6,6)),
+                    MES=str_trim(gsub("[0-9]","",ref1))) %>% 
+      dplyr::mutate(inflator_aluguel=1/cumprod((valor/100)+1))) %>% 
+  # Selecionar variáveis de interesse
+  dplyr::select(MES,inflator_aluguel) %>%
+  # Ajustar mês de julho
+  dplyr::mutate(inflator_aluguel=ifelse(MES=="julho",1,inflator_aluguel)) %>% 
+  # Eliminar duplicadas
+  dplyr::distinct()
+
+# Calcular inflator geral, para referência de jul/2018
+# Mesmo processo que o anterior, alterando somente o índice
+inflator_geral <- 
+  dplyr::bind_rows(
+    sidrar::get_sidra(api='/t/1419/n6/5300108/v/63/p/201803,201804,201805,201806,201807/c315/7169/d/v63%202') %>% 
+      dplyr::select("Mês (Código)","Mês","Valor") %>% 
+      dplyr::rename_all(list(~c("ref","ref1","valor"))) %>% 
+      dplyr::mutate(MES_N=as.numeric(substr(ref,6,6)),
+                    MES=str_trim(gsub("[0-9]","",ref1))) %>% 
+      dplyr::arrange(-MES_N) %>% 
+      dplyr::mutate(inflator_geral=cumprod((valor/100)+1)),
+    sidrar::get_sidra(api='/t/1419/n6/5300108/v/63/p/201807,201808,201809,201810/c315/7169/d/v63%202') %>% 
+      dplyr::select("Mês (Código)","Mês","Valor") %>% 
+      dplyr::rename_all(list(~c("ref","ref1","valor"))) %>% 
+      dplyr::mutate(MES_N=as.numeric(substr(ref,6,6)),
+                    MES=str_trim(gsub("[0-9]","",ref1))) %>% 
+      dplyr::mutate(inflator_geral=1/cumprod((valor/100)+1))) %>% 
+  dplyr::select(MES,inflator_geral) %>%
+  dplyr::mutate(inflator_geral=ifelse(MES=="julho",1,inflator_geral)) %>% 
+  dplyr::distinct()
+
+# Calcular a renda domiciliar
+renda_domiciliar <- pdad_pes_2018 %>%
+  # Mudar para ausente os valores das variáveis G16,G19
+  # com códigos 77777 ou 88888.
+  # Vamos também mudar para 0 quando os valores que não se aplicarem
+  # ou não forem observados rendimentos (66666,99999)
+  dplyr::mutate_at(vars(G16,G19), # Variáveis a serem alteradas
+                   # Função a ser aplicada
+                   list(~case_when(. %in% c(77777,88888)~NA_real_,
+                                   . %in% c(66666,99999)~0,
+                                   TRUE~as.numeric(.)))) %>%
+  # Mudar para ausente os valores das variáveis G201 até G204
+  # com código 77777 e zerar os valores sem rendimento,
+  # casos que não se aplica e não sabia responder (66666,88888,99999)
+  dplyr::mutate_at(vars(G201:G204), 
+                   # Função a ser aplicada
+                   list(~case_when(. %in% c(77777)~NA_real_,
+                                   . %in% c(66666,88888,99999)~0,
+                                   TRUE~as.numeric(.)))) %>%
+  # Selecionar apenas as variáveis de interesse
+  dplyr::select(A01nficha,E02,G16,G19,G201:G204) %>%
+  # Somar as variáveis modificadas para construir a renda individual
+  dplyr::mutate(renda_individual=rowSums(.[,c("G16","G19",
+                                              "G201","G202",
+                                              "G203","G204")],na.rm = F)) %>%
+  # Desconsiderar os empregados domesticos moradores e seus parentes
+  dplyr::filter(!E02 %in% c(17,18)) %>%
+  # Agrupar por domicílio
+  dplyr::group_by(A01nficha) %>%
+  # Somar os valores por domicílios
+  dplyr::summarise(renda_dom=sum(renda_individual, na.rm = F),
+                   # Construir o número de pessoas no domicílio, por esse critério de rendiment0
+                   pessoas=n(),
+                   # Calcular a renda domiciliar per capita
+                   renda_pc=renda_dom/pessoas)
+
+# Fazer a junção das bases
+pdad_2018 <- pdad_dom_2018 %>%
+  # Trazer as informações de pessoas para domicílios
+  dplyr::left_join(pdad_pes_2018 %>% 
+                     dplyr::select(-FATOR_PROJ),
+                   by=c("A01ra"="A01ra",
+                        "A01nficha"="A01nficha")) %>%
+  # Ajustar o nome das RAs
+  dplyr::mutate(RA_nome=factor(case_when(A01ra==1~"Plano Piloto",
+                                         A01ra==2~"Gama",
+                                         A01ra==3~"Taguatinga",
+                                         A01ra==4~"Brazlândia",
+                                         A01ra==5~"Sobradinho",
+                                         A01ra==6~"Planaltina",
+                                         A01ra==7~"Paranoá",
+                                         A01ra==8~"Núcleo Bandeirante",
+                                         A01ra==9~"Ceilândia",
+                                         A01ra==10~"Guará",
+                                         A01ra==11~"Cruzeiro",
+                                         A01ra==12~"Samambaia",
+                                         A01ra==13~"Santa Maria",
+                                         A01ra==14~"São Sebastião",
+                                         A01ra==15~"Recanto das Emas",
+                                         A01ra==16~"Lago Sul",
+                                         A01ra==17~"Riacho Fundo",
+                                         A01ra==18~"Lago Norte",
+                                         A01ra==19~"Candangolândia",
+                                         A01ra==20~"Águas Claras",
+                                         A01ra==21~"Riacho Fundo II",
+                                         A01ra==22~"Sudoeste/Octogonal",
+                                         A01ra==23~"Varjão",
+                                         A01ra==24~"Park Way",
+                                         A01ra==25~"SCIA/Estrutural",
+                                         A01ra==26~"Sobradinho II",
+                                         A01ra==27~"Jardim Botânico",
+                                         A01ra==28~"Itapoã",
+                                         A01ra==29~"SIA",
+                                         A01ra==30~"Vicente Pires",
+                                         A01ra==31~"Fercal",
+                                         A01ra==32~"Sol Nascente/Pôr do Sol",
+                                         A01ra==33~"Arniqueira")),
+                # Ajustar os setores de interesse da PDAD 2018
+                ra_setor=factor(case_when(A01setor==53011~"Asa Norte",
+                                          A01setor==53012~"Asa Sul",
+                                          A01setor==53013~"Noroeste",
+                                          A01setor==53014~"Demais",
+                                          A01setor==53020~"Gama",
+                                          A01setor==53030~"Taguatinga",
+                                          A01setor==53040~"Brazlândia",
+                                          A01setor==53050~"Sobradinho",
+                                          A01setor==53060~"Planaltina",
+                                          A01setor==53070~"Paranoá",
+                                          A01setor==53080~"Núcleo Bandeirante",
+                                          A01setor==53090~"Ceilândia",
+                                          A01setor==53100~"Guará",
+                                          A01setor==53110~"Cruzeiro",
+                                          A01setor==53120~"Samambaia",
+                                          A01setor==53130~"Santa Maria",
+                                          A01setor==53140~"São Sebastião",
+                                          A01setor==53150~"Recanto Das Emas",
+                                          A01setor==53160~"Lago Sul",
+                                          A01setor==53170~"Riacho Fundo",
+                                          A01setor==53180~"Lago Norte",
+                                          A01setor==53190~"Candangolândia",
+                                          A01setor==53200~"Águas Claras",
+                                          A01setor==53210~"Riacho Fundo II",
+                                          A01setor==53220~"Sudoeste/Octogonal",
+                                          A01setor==53230~"Varjão",
+                                          A01setor==53240~"Park Way",
+                                          A01setor==53250~"SCIA-Estrutural",
+                                          A01setor==53260~"Sobradinho II",
+                                          A01setor==53271~"Jardim Botânico - Tradicional",
+                                          A01setor==53272~"Jardim Mangueiral",
+                                          A01setor==53280~"Itapoã",
+                                          A01setor==53290~"SIA",
+                                          A01setor==53300~"Vicente Pires",
+                                          A01setor==53310~"Fercal",
+                                          A01setor==53320~"Sol Nascente/Pôr do Sol",
+                                          A01setor==53330~"Arniqueira")),
+                # Criar uma variável com o mês da pesquisa para o join com os inflatores
+                MES=months(lubridate::mdy(datavisita)),
+                count=1) %>%
+  # Pegar informações do inflator do aluguel
+  dplyr::left_join(inflator_aluguel) %>% 
+  # Pegar informações do inflator geral
+  dplyr::left_join(inflator_geral) %>% 
+  # Pegar informação da renda domiciliar
+  dplyr::left_join(renda_domiciliar)
+
+
+# Fazer o desenho inicial da PDAD 2018
+sample.pdad2018 <- 
+  survey::svydesign(id = ~A01nficha,
+                    strata = ~A01setor,
+                    weights = ~PESO_PRE,
+                    nest=TRUE,
+                    data=pdad_2018)
+
+# Criar um objeto para pós estrato
+post.pop <- pdad_2018 %>%
+  # Agrupar por pos estrato
+  dplyr::group_by(POS_ESTRATO) %>%
+  # Calcular a população
+  dplyr::summarise(Freq=first(POP_AJUSTADA_PROJ)) %>%
+  # Desagrupar
+  dplyr::ungroup() 
+
+# Declarar o objeto de pós-estrato
+svy2018_pes <- survey::postStratify(sample.pdad2018,~POS_ESTRATO,post.pop)
+
+# Criar objeto para calcular os erros por bootstrap (Rao and Wu’s(n − 1) bootstrap)
+svy2018_pes <- survey::as.svrepdesign(svy2018_pes, type = "subbootstrap")
+
+# Ajustar estratos com apenas uma UPA (adjust=centered)
+options( survey.lonely.psu = "adjust")
+
+# Deixar no formato Tibble svy
+svy2018_pes <- srvyr::as_survey(svy2018_pes)
+
+```
+
+## Geral
+
+### Panorama {.tabset .tabset-fade}
+Os Gráficos abaixo reúnem em termos absolutos e relativos por região administrativa as informações acerca do déficit habitacional urbano. O Distrito Federal, em 2018, apresentou um total de 102.984 (11,6%) domicílios que se encontrem em alguma das situações que compõe o déficit.  
+Em termos absolutos, Ceilândia se mostra a região administrativa com déficit mais alto ,seguida por Taguatinga, Samambaia e Planaltina.  
+Em termos relativos, comparados com o total de domicilios da região, a SCIA/Estrutural é a região no qual o deficit tem uma proporção maior, seguida pelo Varjão, SIA e Sobradinho II.
+
+
+```{r, echo=FALSE, warning=FALSE, message=FALSE}
+# Fazer todos os cálculos de uma vez para verificar quem esta em, pelo menos, alguma situação ####
+deficit_ra <- svy2018_pes %>%
+  srvyr::mutate(novo_dom=case_when(E21==1~1,
+                                   TRUE~0)) %>% 
+  srvyr::group_by(A01nficha) %>%
+  srvyr::mutate(novo_dom=sum(novo_dom)) %>% 
+  srvyr::ungroup() %>% 
+  srvyr::filter(E02==1) %>%
+  srvyr::mutate(
+    # Domicílios rústicos
+    dom_rust=case_when(B01==1&B08>=4&B02!=3~1,
+                       TRUE~0),
+    # Domicílios improvisados
+    dom_imp=case_when(B01==2~1,
+                      TRUE~0),
+    # Uma ou outra situação
+    habit_prec=case_when(dom_rust==1|dom_imp==1~1,
+                         TRUE~0),
+    # Familias conviventes
+    fam_conv=case_when(B01==1&A01nfamilias!=1&novo_dom>0~1,
+                       TRUE~0),
+    # Cômodos
+    comodo=case_when(B02==3&B01==1~1,
+                     TRUE~0),
+    # Uma ou outra situação
+    cohabit_familiar=case_when(fam_conv==1|comodo==1~1,
+                               TRUE~0),
+    # Ônus aluguel
+    onus_aluguel=case_when(B03==3&B02!=3&B01==1&(B05*inflator_aluguel>=0.3*renda_dom*inflator_geral)&renda_dom*inflator_geral>0&(renda_dom*inflator_geral)<=3*954&!B05 %in% c(77777,88888)~1,
+                           TRUE~0),
+    # Adensamento
+    adens=case_when(B03==3&B01==1&A01npessoas/B12>3~1,
+                    TRUE~0),
+    # Qualquer situação de déficit
+    deficit_habit=case_when(habit_prec==1|cohabit_familiar==1|onus_aluguel==1|adens==1~1,
+                            TRUE~0),
+    deficit_habit2=case_when(habit_prec==1&cohabit_familiar==1&onus_aluguel==1&adens==1~"todos",
+           habit_prec==1&cohabit_familiar==0&onus_aluguel==0&adens==0~"Precariedade",
+           habit_prec==0&cohabit_familiar==1&onus_aluguel==0&adens==0~"coabitacao",
+           habit_prec==0&cohabit_familiar==0&onus_aluguel==1&adens==0~"onus",
+           habit_prec==0&cohabit_familiar==0&onus_aluguel==0&adens==1~"adensamento",
+          cohabit_familiar==1&onus_aluguel==1~"Coabitacao e onus",
+           cohabit_familiar==1&adens==1~"Coabitacao e adensamento",
+           onus_aluguel==1&adens==1~"onus e adensamento",
+           habit_prec==1&cohabit_familiar==1~"precariedade e coabitacao",
+           habit_prec==1&onus_aluguel==1~"precariedade e onus",
+           habit_prec==1&adens==1~"precariedade e adensamento",
+           habit_prec==1&cohabit_familiar==1&onus_aluguel==1~"precariedade, coabitacao, onus",
+           habit_prec==1&cohabit_familiar==1&adens==1~"precariedade, coabitacao, adensamento",
+           habit_prec==1&onus_aluguel==1&adens==1~"precariedade, onus, adensamento",
+           cohabit_familiar==1&onus_aluguel==1& adens==1~"coabitacao,onus, adensamento",
+                          TRUE~"nenhum"),
+    lote=case_when(B06==1~"regularizado",
+                   B06==2~"não regularizado",
+                   B06==88~"não sabe"),
+           genero=case_when(E03==1~"Masculino",
+                          E03==2~"Feminino"),
+           raca=case_when(E04==1~"Branca",
+                          E04==2~"Negra", #preto
+                          E04==3~"Amarela",
+                          E04==4~"Negra", #Parda
+                          E04==5~"Indígena"),
+           job=case_when(G13==3 & G08 %in% c(1,2,4,14,15,16)~"informal",
+                         G08 %in% c(5,6,7,8) & G09==2~"informal",
+                         G13==88~"Não respondeu",
+                         G05%in% c(4,99) & G041!=1~"Desempregado",
+                         G041==1~"Aposentado",
+                         TRUE~"formal"),
+        deficit_habit3=case_when(deficit_habit2 %in% c("adensamento","Coabitacao e adensamento","onus e adensamento","precariedade e adensamento","precariedade, coabitacao, adensamento","precariedade, onus, adensamento","coabitacao,onus, adensamento")~"adensamento",
+                                deficit_habit2 %in% c("coabitacao","Coabitacao e onus","Coabitacao e adensamento","precariedade e coabitacao","precariedade, coabitacao, onus","precariedade, coabitacao, adensamento","coabitacao,onus, adensamento")~"coabitacao",
+                                deficit_habit2 %in% c("onus","Coabitacao e onus","onus e adensamento","precariedade e onus","precariedade, coabitacao, onus","precariedade, onus, adensamento","coabitacao,onus, adensamento")~"onus",
+                                deficit_habit2 %in% c("Precariedade","precariedade e coabitacao","precariedade e onus","precariedade e adensamento","precariedade, coabitacao, onus","precariedade, coabitacao, adensamento","precariedade, onus, adensamento")~"Precariedade",
+                            TRUE~"sem deficit"))
+
+```
+
+
+####  Gráfico Déficit Habitacional absoluto
+
+```{r, echo=FALSE, warning=FALSE, message=FALSE}
+
+AA<-deficit_ra %>%
+    # Agrupar por RA
+  srvyr::group_by(RA_nome,deficit_habit) %>% 
+  # Calcular o déficit habitacional
+ srvyr::mutate(count=1) %>%
+  # Calcular o total da população, com seu intervalo de confiança
+  srvyr::summarise(n=survey_total(count, vartype = "ci")) %>% 
+    filter(deficit_habit==1) %>% 
+  ggplot(aes(x=fct_reorder(RA_nome,n), y = n, text=paste(RA_nome,format(n,digits=2))))+
+  coord_flip()+
+  labs( y = 'N° de domicílios', x = 'Região Administrativa')+
+  geom_bar(position = "stack", stat = "identity")+
+  theme(legend.position="right")+theme(legend.text = element_text(size=14))
+
+ggplotly(AA, tooltip = "text")
+
+```
+
+####  Gráfico Déficit Habitacional Relativo
+
+```{r, echo=FALSE, warning=FALSE, message=FALSE}
+
+AB<-deficit_ra %>%
+    # Agrupar por RA
+  srvyr::group_by(RA_nome,deficit_habit) %>% 
+  # Calcular o déficit habitacional
+  # Calcular os totais para cada situação
+  # Calcular o total da população, com seu intervalo de confiança
+  srvyr::summarise(n=survey_mean( vartype = "cv")) %>%
+  srvyr::filter(deficit_habit==1) %>% 
+  ggplot(aes(x=fct_reorder(RA_nome,n), y = (n*100),
+         text=paste(RA_nome,format(n*100,digits=2),"%")))+
+  coord_flip()+
+  labs( y = '% de domicílios', x = 'Região Administrativa')+
+  geom_bar(position = "stack", stat = "identity")+
+  theme(legend.position="right")+theme(legend.text = element_text(size=14))
+
+ggplotly(AB, tooltip = "text")
+```
+###  Composição {.tabset .tabset-fade}
+Note, que o indicador capta todos aqueles domicílos que estejam em alguma das situações definidas pelos seus componentes, mas um mesmo domicílio pode acumular mais de uma das situações, deste modo ao tentar agrupar os componentes,sem considerar as intersecções entre os mesmos, o resultado será diferente do indicador do déficit. Em termos práticos, isso significa que a soma dos componentes,quando não se considera suas intersecções,pode ser maior do que o valor do indicador do déficit habitacional.
+
+####  Gráfico Componentes do Déficit Habitacional 
+```{r , warning=FALSE, , message=FALSE, ,echo=FALSE}
+    comps<-deficit_ra %>% 
+  srvyr::summarise(precariedade=survey_total(habit_prec),
+                   coabitaçao=survey_total(cohabit_familiar, vartype = "ci"),
+                   adensamento=survey_total(adens, vartype = "ci"),
+                   onus=survey_total(onus_aluguel, vartype = "ci")) %>% 
+    srvyr::select(precariedade,coabitaçao,adensamento,onus) 
+comps<-gather(comps,"comp","n",1:4) %>% 
+  ggplot(aes(x=comp,y=n,text=paste(format(n,digits=2), comp)))+
+  geom_bar( stat = "identity")+
+  coord_flip()+
+  labs( y = 'N° de domicílios', x="")+
+theme(legend.position="right")+theme(legend.text = element_text(size=14))
+
+ggplotly(comps, tooltip = "text")
+```
+
+
+####  Gráfico Componentes do Déficit Habitacional nas Regiões
+
+```{r fig.height=12, warning=FALSE, , message=FALSE, ,echo=FALSE}
+deficitcdetal<-deficit_ra %>% 
+    srvyr::group_by(RA_nome,deficit_habit3) %>% 
+  # Calcular os totais para cada situação
+  srvyr::mutate(count=1) %>%
+  # Calcular o total da população, com seu intervalo de confiança
+  srvyr::summarise(n=survey_total(count, vartype = "ci")) %>% 
+  srvyr::filter(deficit_habit3!="sem deficit") %>%
+  ggplot(aes(x=deficit_habit3,y=n,text=paste(format(n,digits=2), deficit_habit3)))+
+  geom_bar( stat = "identity")+
+  coord_flip()+
+  labs( y = 'N° de domicílios', x="")+
+theme(legend.position="right")+theme(legend.text = element_text(size=14))+
+    facet_wrap(.~RA_nome, ncol=3)
+
+
+ggplotly(deficitcdetal, tooltip = "text")
+
+
+```
+
+####  Gráfico Composição detalhada Déficit Habitacional nas Regiões
+```{r,echo=FALSE, warning=FALSE, message=FALSE}
+deficitc<-deficit_ra %>% 
+    srvyr::group_by(RA_nome,deficit_habit2) %>% 
+  # Calcular os totais para cada situação
+  srvyr::mutate(count=1) %>%
+  # Calcular o total da população, com seu intervalo de confiança
+  srvyr::summarise(n=survey_total(count, vartype = "ci")) %>% 
+  srvyr::filter(deficit_habit2!="nenhum") %>%
+  ggplot(aes(fill=deficit_habit2,x=fct_reorder(RA_nome,n, .fun=sum,na.rm=FALSE,desc=TRUE), y=n,text=paste(RA_nome,format(n,digits=0), deficit_habit2)))+
+  geom_bar( stat = "identity")+
+  coord_flip()+
+  labs( y = 'N° de domicílios', x = 'Região Administrativa')#+
+#theme(legend.position="right")+theme(legend.text = element_text(size=14))
+
+ggplotly(deficitc, tooltip = "text")
+
+```
+####  Tabela Composição do Déficit Habitacional
+
+```{r, echo=FALSE, warning=FALSE, message=FALSE}
+deficitcomp<-deficit_ra %>%
+  srvyr::group_by(RA_nome,deficit_habit2) %>% 
+  # Calcular os totais para cada situação
+  srvyr::mutate(count=1) %>%
+  # Calcular o total da população, com seu intervalo de confiança
+  srvyr::summarise(n=survey_total(count, vartype = "ci")) %>% 
+  filter(deficit_habit2!="nenhum")
+deficitcomp<- spread(deficitcomp[,c(-4,-5)],deficit_habit2,n)
+deficitcomp[is.na(deficitcomp)]<-0
+knitr::kable(deficitcomp, digits = 0) %>% 
+  kable_styling(full_width = TRUE)
+```
+####  Gráfico Situação do lote segundo o morador
+
+Este gráfico traz informações dos domicílios em situação de déficit habitacional acerca da situação do lote,segundo o morador,os lotes são classificados entre regularizado, não regularizado, e não sabe a situação; vale ressaltar que esse dado informa apenas a percepção do morador acerca do lote, podendo não ser a real situação encontrada.
+```{r,echo=FALSE, warning=FALSE, message=FALSE}
+deficitc<-deficit_ra %>% 
+    srvyr::group_by(RA_nome,deficit_habit,lote) %>% 
+  # Calcular os totais para cada situação
+  srvyr::mutate(count=1) %>%
+  # Calcular o total da população, com seu intervalo de confiança
+  srvyr::summarise(n=survey_total(count, vartype = "ci")) %>% 
+  srvyr::filter(deficit_habit==1) %>%
+  ggplot(aes(fill=lote,x=fct_reorder(RA_nome,n, .fun=sum,na.rm=FALSE,desc=TRUE), y=n,text=paste(RA_nome,format(n,digits=2), lote)))+
+  geom_bar( stat = "identity")+
+  coord_flip()+
+  labs( y = 'N° de domicílios', x = 'Região Administrativa')#+
+#theme(legend.position="right")+theme(legend.text = element_text(size=14))
+
+ggplotly(deficitc, tooltip = "text")
+
+```
+
+## Precariedade 
+```{r tabela, echo=FALSE, warning=FALSE, message=FALSE}
+
+habitacao_precaria_ra <- svy2018_pes %>%
+  # Filtar para o responsável, para termos estimativa por domicílios
+  srvyr::filter(E02==1) %>%
+  # Construir variáveis
+  srvyr::mutate(domicilio=
+                  # Domicílios rústicos
+                  case_when(B01==1&B08>=4&B02!=3~"domicílio rústico",
+                            # Domicílios improvisados
+                            B01==2~"domícílio improvisado")) %>% 
+  # Uma ou outra situação
+  mutate(genero=case_when(E03==1~"Masculino",
+                          E03==2~"Feminino"))%>%
+  mutate(raca=case_when(E04==1~"Branca",
+                        E04==2~"Negra", #preto
+                        E04==3~"Amarela",
+                        E04==4~"Negra", #Parda
+                        E04==5~"Indígena"))%>%
+  mutate(job=case_when(
+    G13==3 & G08 %in% c(1,2,4,14,15,16)~"informal",
+    G08 %in% c(5,6,7,8) & G09==2~"informal",
+    G13==88~"Não respondeu",
+    G05%in% c(4,99) & G041!=1~"Desempregado",
+    G041==1~"Aposentado",
+    TRUE~"formal")) 
+
+```
+### Composição{.tabset .tabset-fade}
+
+Os resultados do componente de precariedade reunidos nos gráficos e tabelas abaixo trazem informações acerca da qualidade do domicílios frente a metodologia abordada. O gráfico a seguir contém informações ordenadas sobre a precariedade dos domicilios nas regiões administrativas e como é caracterizada esta composição(rústico/improvisado).
+
+Estimam-se 29.075 habitações precárias no Distrito Federal, o que representa 3,29% do total de domicilios estimados.Sendo Planaltina, a região com mais habitações precárias, seguida por Sobradinho II, SCIA/Estrutural e o Plano Piloto.
+
+####  Gráfico Precariedade nas Regiões
+```{r, echo=FALSE}
+A<-habitacao_precaria_ra %>%
+    filter(!is.na(domicilio)) %>%
+    srvyr::group_by(RA_nome) %>%
+   srvyr::summarise(n=survey_total(vartype = "ci")) %>% 
+  ggplot(aes(x=fct_reorder(RA_nome,n), y=n,text=paste(RA_nome,format(n,digits=2))))+ 
+  geom_bar( stat = "identity")+
+  coord_flip()+
+  labs( y = 'N° de domicílios', x = 'Região Administrativa',fill='Componentes')+
+  theme(legend.position="right")+theme(legend.text = element_text(size=14))
+
+ggplotly(A, tooltip = "text")
+```
+####  Gráfico Precariedade e sua composição
+```{r, echo=FALSE}
+A<-habitacao_precaria_ra %>% 
+    srvyr::group_by(RA_nome,domicilio) %>%
+   srvyr::summarise(n=survey_total(vartype = "ci")) %>% 
+  filter(!is.na(domicilio)) %>%
+  ggplot(aes(fill =domicilio,x=fct_reorder(RA_nome,n, .fun=sum,na.rm=FALSE,desc=TRUE), y=n,text=paste(RA_nome,format(n,digits=0), domicilio)))+ 
+  geom_bar( stat = "identity")+
+  coord_flip()+
+  ggtitle("Precariedade e seus componentes - Região Administrativas")+
+  labs( y = 'N° de domicílios', x = 'Região Administrativa',fill='Componentes')+
+  theme(legend.position="right")+theme(legend.text = element_text(size=14))
+
+ggplotly(A, tooltip = "text")
+```
+#### Gráfico precariedade em percentuais
+```{r, echo=FALSE}
+B<-habitacao_precaria_ra %>%
+  srvyr::group_by(RA_nome,domicilio) %>% 
+  # Calcular os totais para cada situação
+  # Criar uma variável auxiliar para contagem
+  # Calcular o total da população, com seu intervalo de confiança
+  srvyr::summarise(pct=survey_mean(vartype=c("cv"))) %>%
+    filter(!is.na(domicilio)) %>% 
+  ggplot(aes(x=fct_reorder(RA_nome,pct, .fun=sum,na.rm=FALSE,desc=TRUE), y = pct, fill =domicilio,text=paste(RA_nome,domicilio,format(pct*100,digits=2),"%")), size=18)+
+  coord_flip()+
+  labs( y = 'N° de domicílios', x='Região Administrativa',fill='Componentes')+
+  geom_bar(position = "stack", stat = "identity")+
+  theme(legend.position="right")+theme(legend.text = element_text(size=14))
+
+ggplotly(B, tooltip = "text")
+```
+
+#### Perfil da população em Precariedade
+```{r, echo=FALSE}
+perfilpreca<-deficit_ra %>% 
+  srvyr::group_by(habit_prec,genero,job,raca) %>% 
+srvyr::summarise(n=survey_total(vartype = "ci")) %>%  
+srvyr::filter(habit_prec!=0)
+
+perfilpreca <-perfilpreca %>% 
+  unite(hierarquia,habit_prec:raca, sep = "-")
+
+
+sunburst(perfilpreca)
+
+```
+
+## Coabitação  
+
+```{r,echo=FALSE}
+ # Coabitação Familiar ####
+cohabit_familiar_ra <- svy2018_pes %>%
+  # Verificar quem declarou ter interesse em constituir um novo domicílio no DF
+  srvyr::mutate(novo_dom=case_when(E21==1~1,
+                                   TRUE~0)) %>% 
+  # Agrupar por domicílio
+  srvyr::group_by(A01nficha) %>%
+  # Somar a quantidade de moradores por domicílio com intenção de construção
+  srvyr::mutate(novo_dom=sum(novo_dom)) %>% 
+  # Desagrupar
+  srvyr::ungroup() %>%
+  # Filtrar para o responsável (estatística por domicílio)
+  srvyr::filter(E02==1) %>% 
+  srvyr::mutate(situacao=case_when(B01==1&A01nfamilias!=1&novo_dom>0~"Famílias conviventes",
+                       B02==3&B01==1~"Cômodo",
+                            TRUE~"Demais"))%>%
+  mutate(genero=case_when(E03==1~"Masculino",
+                          E03==2~"Feminino"))%>%
+  mutate(raca=case_when(E04==1~"Branca",
+                        E04==2~"Negra", #preto
+                        E04==3~"Amarela",
+                        E04==4~"Negra", #Parda
+                        E04==5~"Indígena"))%>%
+  mutate(job=case_when(
+    G13==3 & G08 %in% c(1,2,4,14,15,16)~"informal",
+    G08 %in% c(5,6,7,8) & G09==2~"informal",
+    G13==88~"Não respondeu",
+    G05%in% c(4,99) & G041!=1~"Desempregado",
+    G041==1~"Aposentado",
+    TRUE~"formal"))
+```
+
+### Composição  {.tabset .tabset-fade}
+
+Os resultados do componente de Coabitação reunidos nos gráficos abaixo trazem informações acerca da situação de domicílios em coabitação, ou seja, de domicílios em que haja mais de uma família residindo. O gráfico a seguir contém informações ordenadas sobre a coabitação dos domicilios nas regiões administrativas e como é caracterizada esta composição(famílias conviventes/famílias que vivem em cômodos).
+
+Estimam-se  11.007 habitações em situação de coabitação no Distrito Federal, o que representa 1,24% do total de domicilios estimados.Sendo Ceilândia, a região com mais ocorências, seguida por Taguatinga, Gama e Samambaia.
+
+#### Gráfico Coabitação nas regiões
+
+```{r, echo=FALSE}
+C<-cohabit_familiar_ra %>%
+     filter(situacao != "Demais") %>%
+    srvyr::group_by(RA_nome) %>%
+   srvyr::summarise(n=survey_total(vartype = "ci")) %>% 
+  ggplot(aes(x=fct_reorder(RA_nome,n), y=n, text=paste (RA_nome,format(n,digits=0))))+
+  geom_bar( stat = "identity")+
+  coord_flip()+
+  labs( y = 'N° de domicílios', x = 'Região Administrativa',fill='Componentes')#+
+  #theme(legend.position="right")+theme(legend.text = element_text(size=14))
+
+ggplotly(C,tooltip ="text")
+```
+#### Gráfico Coabitação e seus componentes
+```{r, echo=FALSE}
+C<-cohabit_familiar_ra %>% 
+    srvyr::group_by(RA_nome,situacao) %>%
+   srvyr::summarise(n=survey_total(vartype = "ci")) %>% 
+    filter(situacao != "Demais") %>%
+  ggplot(aes(fill =situacao,x=fct_reorder(RA_nome,n, .fun=sum,na.rm=FALSE,desc=TRUE), y=n, text=paste (RA_nome,format(n,digits=0),situacao)))+
+  geom_bar( stat = "identity")+
+  coord_flip()+
+  labs( y = 'N° de domicílios', x = 'Região Administrativa',fill='Componentes')#+
+  #theme(legend.position="right")+theme(legend.text = element_text(size=14))
+
+ggplotly(C,tooltip ="text")
+```
+#### Coabitação em percentuais
+```{r, echo=FALSE}
+D<-cohabit_familiar_ra %>% 
+    srvyr::group_by(RA_nome,situacao) %>%
+    srvyr::summarise(pct=survey_mean(vartype = "cv")) %>% 
+    filter(situacao != "Demais") %>%
+  ggplot(aes(fill =situacao,x=fct_reorder(RA_nome,pct, .fun=sum,na.rm=FALSE,desc=TRUE), y=pct, text=paste(RA_nome,format(pct*100,digits=1),"%")))+
+  geom_bar( stat = "identity")+
+  coord_flip()+
+  labs( y = 'N° de domicílios', x = 'Região Administrativa',fill='Componentes')+
+  theme(legend.position="right")+theme(legend.text = element_text(size=14))
+
+ggplotly(D, tooltip = "text")
+```
+
+#### Perfil da população em coabitação
+```{r, echo=FALSE}
+perfilcoabit<-deficit_ra %>% 
+  srvyr::group_by(cohabit_familiar,genero,job,raca) %>% 
+srvyr::summarise(n=survey_total(vartype = "ci")) %>%  
+srvyr::filter(cohabit_familiar!=0)
+
+perfilcoabit <-perfilcoabit %>% 
+  unite(hierarquia,cohabit_familiar:raca, sep = "-")
+
+
+sunburst(perfilcoabit)
+
+```
+
+## Ônus excessivo com aluguel
+
+### Composição  {.tabset .tabset-fade}
+
+Os resultados do componente de ônus excessivo com aluguel reunidos nos gráficos abaixo trazem informações acerca da situação de domicílios que tem comprometido 30% ou mais de sua renda domiciliar com aluguel, este indicador contempla apenas domicílios que tenham renda de até três salários minímos. O gráfico a seguir contém informações ordenadas sobre a coabitação dos domicilios nas regiões administrativas e como é caracterizada esta composição(famílias conviventes/famílias que vivem em cômodos).
+
+Estimam-se  56.432 habitações em situação de ônus excessivo com alugel no Distrito Federal, o que representa 6,38% do total de domicilios estimados. Sendo o indicador mais expressivo dentro da composição do déficit;Ceilândia, segue sendo a região com mais ocorrências, seguida por Taguatinga,Samambaia e São Sebastião.
+
+```{r,echo=FALSE}
+onus_aluguel_ra <- svy2018_pes %>%
+  # Aplicar filtros
+  srvyr::filter(
+    # Para o responsável (estatística por domicílio)
+    E02==1,
+    # Renda domiciliar positiva
+    renda_dom*inflator_geral>0,
+    # Renda até três salários mínimos
+    (renda_dom*inflator_geral)<=3*954,
+    # Retirar valores inválidos para aluguel
+    !B05 %in% c(77777,88888),
+    # Manter somente domicílios com renda informada
+    is.na(renda_dom)==F) %>% 
+  # Calcular o ônus do aluguel
+  srvyr::mutate(onus_aluguel=case_when(B03==3&B02!=3&B01==1&(B05*inflator_aluguel)>=(0.3*renda_dom*inflator_geral)~1,
+                                       TRUE~0))
+```
+
+#### Gráfico ônus excessivo com aluguel
+
+```{r, echo=FALSE}
+E<-onus_aluguel_ra %>% 
+    srvyr::group_by(RA_nome,onus_aluguel) %>%
+   srvyr::summarise(n=survey_total(vartype = "ci")) %>% 
+    filter(onus_aluguel == 1) %>%
+  ggplot(aes(x=fct_reorder(RA_nome,n), y=n, text=paste(RA_nome,format(n,digits=2))))+
+  geom_bar( stat = "identity")+
+  coord_flip()+
+  labs( y = 'N° de domicílios', x = 'Região Administrativa')#+
+  #theme(legend.position="right")+theme(legend.text = element_text(size=14))
+
+ggplotly(E, tooltip = "text")
+```
+#### Gráfico ônus excessivo com aluguel em percentuais
+```{r, echo=FALSE}
+E<-onus_aluguel_ra %>% 
+    srvyr::group_by(RA_nome,onus_aluguel) %>%
+   srvyr::summarise(n=survey_mean(vartype = "cv" )) %>% 
+    filter(onus_aluguel == 1) %>%
+  ggplot(aes(x=fct_reorder(RA_nome,n), y=n, text=paste(RA_nome,format(n*100,digits=2),"%´")))+
+  geom_bar( stat = "identity")+
+  coord_flip()+
+  labs( y = 'N° de domicílios', x = 'Região Administrativa')#+
+  #theme(legend.position="right")+theme(legend.text = element_text(size=14))
+
+ggplotly(E, tooltip = "text")
+```
+#### Tabela ônus excessivo com aluguel
+
+```{r, echo=FALSE}
+tabelaonus<-onus_aluguel_ra %>% 
+# Agrupar por RA
+  srvyr::group_by(RA_nome,onus_aluguel) %>% 
+srvyr::summarise(n=survey_total(vartype = "ci"))
+  #filter(!is.na(domicilio))
+tabelaonus<- spread(tabelaonus[,c(-4,-5)],onus_aluguel,n)
+tabelaonus[is.na(tabelaonus)]<-0
+knitr::kable(tabelaonus,col.names = c("Região Administrativa","sem ônus", "ônus excessivo"), digits = 0) %>% 
+kable_styling(full_width = FALSE)
+```
+#### Perfil da população em ônus excessivo com aluguel
+```{r, echo=FALSE}
+perfilonus<-deficit_ra %>% 
+  srvyr::group_by(onus_aluguel,genero,job,raca) %>% 
+srvyr::summarise(n=survey_total(vartype = "ci")) %>%  
+srvyr::filter(onus_aluguel!=0)
+
+try <-perfilonus %>% 
+  unite(hierarquia,onus_aluguel:raca, sep = "-")
+
+
+sunburst(try)
+
+```
+
+
+## Adensamento excessivo 
+
+### Composição{.tabset .tabset-fade}
+
+
+Os resultados do componente de Adensamento excessivo reunidos nos gráficos abaixo trazem informações de domicílios alugados em que haja mais de três pessoas por cômodo utilizado, permanentemente, como dormitório. Os gráficos a seguir contêm informações ordenadas sobre este adensamento dos domicilios nas regiões administrativas.
+
+Estimam-se 11.800 habitações em situação de adensamento excessivo no Distrito Federal, o que representa 1,34% do total de domicilios estimados.Sendo Ceilândia, a região com mais ocorências, seguida por Recanto das emas, Samambaia e Taguatinga.
+
+```{r, echo=FALSE}
+adensamento_excessivo_ra <- svy2018_pes %>%
+  # Para o responsável (estatística por domicílio)
+  srvyr::filter(E02==1) %>% 
+  # Calcular o adensamento excessivo
+  srvyr::mutate(adens=case_when(B03==3&B01==1&A01npessoas/B12>3~1,
+                                TRUE~0))
+```
+
+
+#### Gráfico Adensamento excessivo
+```{r, echo=FALSE}
+G<-adensamento_excessivo_ra %>% 
+  # Agrupar por RA
+  srvyr::group_by(RA_nome,adens) %>%
+  # Calcular os totais
+  srvyr::summarise(n=survey_total(vartype = "ci")) %>% 
+    filter(adens ==1) %>%
+  ggplot(aes(x=fct_reorder(RA_nome,n), y=n, text=paste(RA_nome,format(n,digits=0))))+
+  geom_bar( stat = "identity")+
+  coord_flip()+
+  labs( y = 'N° de domicílios', x = 'Região Administrativa')#+
+  #theme(legend.position="right")+theme(legend.text = element_text(size=14))
+
+ggplotly(G, tooltip = "text")
+```
+
+#### Gráfico Adensamento excessivo em percentuais
+```{r, echo=FALSE}
+G<-adensamento_excessivo_ra %>% 
+  # Agrupar por RA
+  srvyr::group_by(RA_nome,adens) %>%
+  # Calcular os totais
+  srvyr::summarise(n=survey_mean(vartype = "cv")) %>% 
+    filter(adens ==1) %>%
+  ggplot(aes(x=fct_reorder(RA_nome,n), y=n, text=paste(RA_nome,format(n*100,digits=2),"%")))+
+  geom_bar( stat = "identity")+
+  coord_flip()+
+  labs( y = 'N° de domicílios', x = 'Região Administrativa')#+
+  #theme(legend.position="right")+theme(legend.text = element_text(size=14))
+
+ggplotly(G, tooltip = "text")
+```
+#### Perfil da população em Adensamento excessivo
+```{r, echo=FALSE}
+perfiladens<-deficit_ra %>% 
+  srvyr::group_by(adens,genero,job,raca) %>% 
+srvyr::summarise(n=survey_total(vartype = "ci")) %>%  
+srvyr::filter(adens!=0)
+
+try <-perfiladens %>% 
+  unite(hierarquia,adens:raca, sep = "-")
+
+
+sunburst(try)
+
+```
+
+
+

@@ -1,0 +1,74 @@
+---
+output:
+  word_document: default
+  html_document: default
+---
+
+<style type="text/css">
+.tg  {border-collapse:collapse;border-color:#93a1a1;border-spacing:0;}
+.tg td{background-color:#fdf6e3;border-color:#93a1a1;border-style:solid;border-width:1px;color:#002b36;
+  font-family:Arial, sans-serif;font-size:14px;overflow:hidden;padding:10px 5px;word-break:normal;}
+.tg th{background-color:#657b83;border-color:#93a1a1;border-style:solid;border-width:1px;color:#fdf6e3;
+  font-family:Arial, sans-serif;font-size:14px;font-weight:normal;overflow:hidden;padding:10px 5px;word-break:normal;}
+.tg .tg-odgh{background-color:#FDF6E3;color:#002B36;text-align:left;vertical-align:top}
+.tg .tg-h45s{background-color:#657B83;color:#FDF6E3;font-weight:bold;text-align:center;vertical-align:top}
+.tg .tg-oj1a{background-color:#FDF6E3;color:#002B36;font-weight:bold;text-align:center;vertical-align:middle}
+.tg .tg-r2ta{background-color:#FDF6E3;color:#002B36;font-weight:bold;text-align:center;vertical-align:top}
+.tg .tg-qve5{background-color:#FDF6E3;color:#002B36;text-align:center;vertical-align:top}
+.tg .tg-w0xc{background-color:#FDF6E3;color:#002B36;font-weight:bold;text-align:left;vertical-align:top}
+</style>
+<table class="tg">
+<thead>
+  <tr>
+    <th class="tg-h45s" colspan="3"><span style="font-weight:bold">Eixo Uso da Terra – Densidade Urbana (hab/ha)</span></th>
+  </tr>
+</thead>
+<tbody>
+  <tr>
+    <td class="tg-r2ta" colspan="2"><span style="font-weight:bold">Objetivo</span></td>
+    <td class="tg-odgh"><span style="font-weight:normal">Subsidiar políticas relacionadas à otimização da infraestrutura, à</span><br><span style="font-weight:normal"> sustentabilidade ambiental e à dinamicidade do espaço urbano</span></td>
+  </tr>
+  <tr>
+    <td class="tg-r2ta" colspan="2"><span style="font-weight:bold">Descrição</span></td>
+    <td class="tg-odgh"><span style="font-weight:normal">Relação da população com a área urbana efetivamente ocupada</span></td>
+  </tr>
+  <tr>
+    <td class="tg-r2ta" colspan="2"><span style="font-weight:bold">Fonte metodológica</span></td>
+    <td class="tg-odgh"><span style="font-weight:normal">CODEPLAN/JATOBÁ, Sérgio Ulisses. Densidades Urbanas nas</span><br><span style="font-weight:normal"> Regiões Administrativas do DF. Texto para Discussão Nº 22/Codeplan. Brasilia. DF.</span></td>
+  </tr>
+  <tr>
+    <td class="tg-r2ta" colspan="2"><span style="font-weight:bold">Forma de Cálculo</span></td>
+    <td class="tg-qve5"><span style="font-weight:normal">População urbana (C1)/ Á𝑟𝑒𝑎 𝑐𝑜𝑚 𝑜𝑐𝑢𝑝𝑎çã𝑜 𝑢𝑟𝑏𝑎𝑛𝑎 (𝐶2)</span></td>
+  </tr>
+  <tr>
+    <td class="tg-r2ta" colspan="2"><span style="font-weight:bold">Unidades</span></td>
+    <td class="tg-odgh"><span style="font-weight:normal">Habitantes por hectare (hab/ha)</span></td>
+  </tr>
+  <tr>
+    <td class="tg-oj1a" rowspan="2">C1</td>
+    <td class="tg-w0xc"><span style="font-weight:bold">Definição</span></td>
+    <td class="tg-odgh"><span style="font-weight:normal">População urbana</span></td>
+  </tr>
+  <tr>
+    <td class="tg-w0xc"><span style="font-weight:bold">Fonte</span></td>
+    <td class="tg-odgh"><span style="font-weight:normal">PDAD</span></td>
+  </tr>
+  <tr>
+    <td class="tg-oj1a" rowspan="2">C2</td>
+    <td class="tg-w0xc"><span style="font-weight:bold">Definição</span></td>
+    <td class="tg-odgh"><span style="font-weight:normal">Porção territorial, em hectares, que tem ocupação com características urbanas, formal e informal, excluindo grandes áreas</span><br><span style="font-weight:normal"> desabitadas e Unidades de Conservação de Proteção Integral</span></td>
+  </tr>
+  <tr>
+    <td class="tg-w0xc"><span style="font-weight:bold">Fonte</span></td>
+    <td class="tg-odgh"><span style="font-weight:normal">Siturb</span></td>
+  </tr>
+  <tr>
+    <td class="tg-r2ta" colspan="2"><span style="font-weight:bold">Periodicidade</span></td>
+    <td class="tg-odgh"><span style="font-weight:normal">Bianual</span></td>
+  </tr>
+  <tr>
+    <td class="tg-r2ta" colspan="2"><span style="font-weight:bold">Desagregação</span></td>
+    <td class="tg-odgh"><span style="font-weight:normal">Regiões Administrativas (RA)</span></td>
+  </tr>
+</tbody>
+</table>
